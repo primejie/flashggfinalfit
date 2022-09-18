@@ -9,7 +9,6 @@ from collections import OrderedDict as od
 from commonTools import *
 from commonObjects import *
 from tools.submissionTools import *
-
 def get_options():
   parser = OptionParser()
   # Take inputs from config file
@@ -81,7 +80,10 @@ if options['mode'] not in ['fTest','getEffAcc','getDiagProc','calcPhotonSyst','s
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Extract list of filenames
 WSFileNames = extractWSFileNames(options['inputWSDir'])
-if not WSFileNames: leave()
+print("WSFileNames",WSFileNames)
+if not WSFileNames:
+  print("can't open the input dir files, please check")
+  leave()
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # If proc/cat == auto. Extract processes and categories

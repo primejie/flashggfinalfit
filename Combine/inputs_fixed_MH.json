@@ -20,3 +20,4 @@
         "fit_opts":"--setParameters MH=125.38 --saveSpecifiedNuis all --saveInactivePOI 1 --freezeParameters BR_hgg,rgx{THU_ggH.*},rgx{THU_qqH.*},rgx{QCDscale_.*},rgx{pdf_Higgs_.*},rgx{alphaS_.*},rgx{MergeUnc_maximal.*},UnderlyingEvent_norm,PartonShower_norm,rgx{CMS_hgg_tth_.*},rgx{MergeUnc_minimal_VBFlike.*},MH"
     }
 }
+  

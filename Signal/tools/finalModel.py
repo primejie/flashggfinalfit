@@ -32,6 +32,7 @@ class dummy_options:
 
 # Functions to get XS/BR
 def getXS(_SM,_MHVar,_mh,_pm):
+  print("_pm \n", _pm)
   _MHVar.setVal(_mh)
   return _SM.modelBuilder.out.function("SM_XS_%s_%s"%(_pm,sqrts__)).getVal()
 def getBR(_SM,_MHVar,_mh,_dm):
@@ -137,14 +138,21 @@ class FinalModel:
   def buildXSBRSplines(self):
     mh = np.linspace(120.,130.,101)
     # XS
-    fp = self.xsbrMap[self.proc]['factor'] if 'factor' in self.xsbrMap[self.proc] else 1.
-    mp = self.xsbrMap[self.proc]['mode']
-    xs = fp*self.XSBR[mp]
+    if(self.proc == 'gghh'):
+      xs = np.ones(101)
+    else:
+      mp = self.xsbrMap[self.proc]['mode']
+      fp = self.xsbrMap[self.proc]['factor'] if 'factor' in self.xsbrMap[self.proc] else 1.
+      xs = fp*self.XSBR[mp]
+    
     self.Splines['xs'] = ROOT.RooSpline1D("fxs_%s_%s"%(self.proc,self.sqrts),"fxs_%s_%s"%(self.proc,self.sqrts),self.MH,len(mh),mh,xs)
     # BR
-    fd = self.xsbrMap['decay']['factor'] if 'factor' in self.xsbrMap['decay'] else 1.
-    md = self.xsbrMap['decay']['mode']
-    br = fd*self.XSBR[md]
+    if(self.proc == 'gghh'):
+      br = np.ones(101)
+    else:
+      md = self.xsbrMap['decay']['mode']
+      fd = self.xsbrMap['decay']['factor'] if 'factor' in self.xsbrMap['decay'] else 1.
+      br = fd*self.XSBR[md]
     self.Splines['br'] = ROOT.RooSpline1D("fbr_%s"%self.sqrts,"fbr_%s"%self.sqrts,self.MH,len(mh),mh,br)
 
   def buildEffAccSpline(self):

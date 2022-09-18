@@ -29,7 +29,7 @@ print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RUNNING PACKAGER ~~~~~~~~~~~~~~~~~~~~~~~
 def leave():
   print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RUNNING PACKAGER (END) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
   sys.exit(1)
-
+                      
 # Store all opts in orderedDict for submissionTools
 options = od()
 options['inputWSDir'] = opt.inputWSDir

@@ -26,7 +26,12 @@ def rooiter(x):
 
 # Extract all files to be merged
 fNames = {}
-for ext in opt.exts.split(","): fNames[ext] = glob.glob("outdir_%s/signalFit/output/CMS-HGG_sigfit_%s_*_%s.root"%(ext,ext,opt.cat))
+for ext in opt.exts.split(","): 
+  print('ext',ext)
+  print('opt.cat',opt.cat)
+  fNames[ext] = glob.glob("outdir_%s/signalFit/output/CMS-HGG_sigfit_%s_*_%s.root"%(ext,ext,opt.cat))
+  print("fNames[ext]",fNames[ext])
+  print("debug")
 
 # Define ouput packaged workspace
 print " --> Packaging output workspaces"
@@ -37,6 +42,12 @@ packagedWS.imp = getattr(packagedWS,"import")
 data_merged = {}
 data_merged_names = []
 for mp in opt.massPoints.split(","): 
+  print(mp)
+  print('fNames',fNames)
+  print('opt.exts.split(",")[0]',opt.exts.split(",")[0])
+  print("debug: opt.exts", opt.exts)
+  print('fNames[opt.exts.split(",")[0]][0]',fNames[opt.exts.split(",")[0]][0])
+  print('fNames[0]')
   data_merged["m%s"%mp] = ROOT.TFile(fNames[opt.exts.split(",")[0]][0]).Get("wsig_13TeV").data("sig_mass_m%s_%s"%(mp,opt.cat)).emptyClone("sig_mass_m%s_%s"%(mp,opt.cat))
   data_merged_names.append( data_merged["m%s"%mp].GetName() )
 

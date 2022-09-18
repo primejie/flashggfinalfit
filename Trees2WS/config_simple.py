@@ -3,7 +3,7 @@
 trees2wsCfg = {
 
   # Name of RooDirectory storing input tree
-  'inputTreeDir':'tagsDumper/trees',
+  'inputTreeDir':'',
 
   # Variables to be added to dataframe: use wildcard * for common strings
   'mainVars':["CMS_hgg_mass","weight","dZ"], # Var for the nominal RooDataSets

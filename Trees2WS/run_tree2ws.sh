@@ -1,0 +1,5 @@
+python trees2ws.py --inputConfig config_simple.py --inputTreeFile /eos/user/z/zhenxuan/hhwwgg_root/hhwwgg_root_SL/Signal_M500_SL_2017.root --inputMass 125 --productionMode gghh --year 2017  >M500_hhwwgg_MC_SL.log 2>&1 &
+python trees2ws.py --inputConfig config_simple.py --inputTreeFile /eos/user/z/zhenxuan/hhwwgg_root/hhwwgg_root_SL/Signal_M1000_SL_2017.root --inputMass 125 --productionMode gghh --year 2017  >M1000_hhwwgg_MC_SL.log 2>&1 &
+python trees2ws.py --inputConfig config_simple.py --inputTreeFile /eos/user/z/zhenxuan/hhwwgg_root/hhwwgg_root_SL/Signal_M2000_SL_2017.root --inputMass 125 --productionMode gghh --year 2017  >M2000_hhwwgg_MC_SL.log 2>&1 &
+python trees2ws.py --inputConfig config_simple.py --inputTreeFile /eos/user/z/zhenxuan/hhwwgg_root/hhwwgg_root_SL/Signal_M3000_SL_2017.root --inputMass 125 --productionMode gghh --year 2017  >M3000_hhwwgg_MC_SL.log 2>&1 &
+# python trees2ws_data.py --inputConfig config_simple.py --inputTreeFile /eos/user/z/zhenxuan/hhwwgg_root/hhwwgg_root_SL/Data_SL_2017.root >Data_hhwwgg_SL.log 2>&1 &

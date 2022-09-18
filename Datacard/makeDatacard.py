@@ -44,8 +44,11 @@ if opt.doSTXSScaleCorrelationScheme: from tools.STXS_tools import STXSScaleCorre
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Concatenate dataframes
 print " --> Loading per category dataframes into single dataframe"
+print('opt.ext',opt.ext)
 extStr = "_%s"%opt.ext if opt.ext != '' else ''
 pkl_files = glob.glob("./yields%s/*.pkl"%extStr)
+print('"./yields%s/*.pkl"%extStr',"./yields%s/*.pkl"%extStr)
+print('pkl_files',pkl_files)
 pkl_files.sort() # Categories in alphabetical order
 data = pd.DataFrame()
 for f_pkl_name in pkl_files:
@@ -132,6 +135,7 @@ if opt.prune:
 
   else:
     print " --> Using nominal yield of process (sumEntries) for pruning"
+    print(data)
     mask = (data['type']=='sig')
 
     # Extract per category yields

@@ -49,7 +49,8 @@ if opt.cats in ['all','wall']:
     citr += 1
 else:
   for cat in opt.cats.split(","):
-    f = "%s/outdir_%s/CMS-HGG_sigfit_%s_%s.root"%(swd__,opt.ext,opt.ext,cat)
+    f = "%s/outdir_%s/CMS-HGG_sigfit_%s_%s_2017.root"%(swd__,opt.ext,opt.ext,cat) #attention: only have 2017 year result with the name *_2017 so we add the _2017 in the str here
+    # f = "%s/outdir_%s/CMS-HGG_sigfit_%s_%s.root"%(swd__,opt.ext,opt.ext,cat)
     inputFiles[cat] = f
     if citr == 0:
       w = ROOT.TFile(f).Get("wsig_13TeV")
@@ -93,15 +94,21 @@ for cat,f in inputFiles.iteritems():
         norms[k] = w.function("%s_%s_normThisLumi"%(outputWSObjectTitle__,_id))
     else:
       for proc in opt.procs.split(","):
+        print("debug: proc:", proc)
+        print("debug: year:", year)
+        print("debug: cat:", cat)
         k = "%s__%s"%(proc,year)
         _id = "%s_%s_%s_%s"%(proc,year,cat,sqrts__)
+        print("debug: _id:", _id)
         norms[k] = w.function("%s_%s_normThisLumi"%(outputWSObjectTitle__,_id))
+        print("debug: norms[k]:", norms[k])
     
   # Iterate over norms: extract total category norm
   catNorm = 0
   for k, norm in norms.iteritems():
     proc, year = k.split("__")
     w.var("IntLumi").setVal(lumiScaleFactor*lumiMap[year])
+    print("debug: norm:", norm)
     catNorm += norm.getVal()
 
   # Iterate over norms and extract data sets + pdfs
