@@ -42,7 +42,7 @@ def addConstantSyst(sd,_syst,options):
 
 def getValueFromJson(row,uncertainties,sname):
   # uncertainties is a dict of the form proc:{sname:X}
-  p = re.sub("_2016_%s"%decayMode,"",row['proc'])
+  p = re.sub("_2016post_%s"%decayMode,"",row['proc'])
   p = re.sub("_2017_%s"%decayMode,"",p)
   p = re.sub("_2018_%s"%decayMode,"",p)
   if p in uncertainties: 
@@ -120,6 +120,7 @@ def calcSystYields(_nominalDataName,_nominalDataContents,_inputWS,_systFactoryTy
   # CHECK: is weight in contents: if not then add syst to systToSkip container + print warning
   systToSkip = []
   for s,f in _systFactoryTypes.iteritems():
+    print("SSSSSS",s)
     if f == "a_h": continue
     elif f == "a_w":
       if( "%sUp01sigma"%s not in _nominalDataContents )|( "%sDown01sigma"%s not in _nominalDataContents ):

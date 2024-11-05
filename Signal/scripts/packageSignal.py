@@ -29,12 +29,13 @@ fNames = {}
 for ext in opt.exts.split(","): 
   print('ext',ext)
   print('opt.cat',opt.cat)
-  fNames[ext] = glob.glob("outdir_%s/signalFit/output/CMS-HGG_sigfit_%s_*_%s.root"%(ext,ext,opt.cat))
+  #fNames[ext] = glob.glob("outdir_%s/signalFit/output/CMS-HGG_sigfit_%s_*_%s.root"%(ext,ext,opt.cat))
+  fNames[ext] = glob.glob("outdir_%s/signalFit/output/CMS-HGG_sigfit*.root"%(ext))
   print("fNames[ext]",fNames[ext])
   print("debug")
 
 # Define ouput packaged workspace
-print " --> Packaging output workspaces"
+print( " --> Packaging output workspaces")
 packagedWS = ROOT.RooWorkspace("wsig_13TeV","wsig_13TeV")
 packagedWS.imp = getattr(packagedWS,"import")
 
@@ -48,6 +49,9 @@ for mp in opt.massPoints.split(","):
   print("debug: opt.exts", opt.exts)
   print('fNames[opt.exts.split(",")[0]][0]',fNames[opt.exts.split(",")[0]][0])
   print('fNames[0]')
+  print(mp)
+  print(opt.cat)
+  print(ROOT.TFile(fNames[opt.exts.split(",")[0]][0]).Get("wsig_13TeV").data("sig_mass_m%s_%s"%(mp,opt.cat)))
   data_merged["m%s"%mp] = ROOT.TFile(fNames[opt.exts.split(",")[0]][0]).Get("wsig_13TeV").data("sig_mass_m%s_%s"%(mp,opt.cat)).emptyClone("sig_mass_m%s_%s"%(mp,opt.cat))
   data_merged_names.append( data_merged["m%s"%mp].GetName() )
 
@@ -87,10 +91,10 @@ for ext, fNames_by_ext in fNames.iteritems():
 # Save to file
 if not os.path.isdir("outdir_%s"%opt.outputExt): os.system("mkdir outdir_%s"%opt.outputExt)
 if opt.mergeYears:
-  print " --> Writing to: ./outdir_%s/CMS-HGG_sigfit_%s_%s.root"%(opt.outputExt,opt.outputExt,opt.cat)
+  print (" --> Writing to: ./outdir_%s/CMS-HGG_sigfit_%s_%s.root")%(opt.outputExt,opt.outputExt,opt.cat)
   f = ROOT.TFile("./outdir_%s/CMS-HGG_sigfit_%s_%s.root"%(opt.outputExt,opt.outputExt,opt.cat),"RECREATE")
 else:
-  print " --> Writing to: ./outdir_%s/CMS-HGG_sigfit_%s_%s_%s.root"%(opt.outputExt,opt.outputExt,opt.cat,opt.year)
+  print( " --> Writing to: ./outdir_%s/CMS-HGG_sigfit_%s_%s_%s.root")%(opt.outputExt,opt.outputExt,opt.cat,opt.year)
   f = ROOT.TFile("./outdir_%s/CMS-HGG_sigfit_%s_%s_%s.root"%(opt.outputExt,opt.outputExt,opt.cat,opt.year),"RECREATE")
 
 packagedWS.Write()

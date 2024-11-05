@@ -55,8 +55,10 @@ nominalWSFileName = glob.glob("%s/output*"%(opt.inputWSDir))[0]
 f0 = ROOT.TFile(nominalWSFileName,"read")
 inputWS0 = f0.Get(inputWSName__)
 xvar = inputWS0.var(opt.xvar)
+
 xvarFit = xvar.Clone()
 dZ = inputWS0.var("dZ")
+print("xvar",xvar,dZ)
 aset = ROOT.RooArgSet(xvar,dZ)
 f0.Close()
 
@@ -75,6 +77,7 @@ for proc in opt.procs.split(","):
   print('"%s_%s_%s_%s"%(procToData(proc.split("_")[0]),opt.mass,sqrts__,opt.cat)',"%s_%s_%s_%s"%(procToData(proc.split("_")[0]),opt.mass,sqrts__,opt.cat))
   print("aset",aset)
   print("inputWSfilename:",inputWSName__)
+  print(procToData(proc.split("_")[0])," ",opt.mass," ",sqrts__," ",opt.cat)
   d = reduceDataset(inputWS.data("%s_%s_%s_%s"%(procToData(proc.split("_")[0]),opt.mass,sqrts__,opt.cat)),aset)
   df.loc[len(df)] = [proc,d.sumEntries(),1,1]
   inputWS.Delete()

@@ -128,9 +128,11 @@ def writeSystematic(f,d,s,options,stxsMergeScheme=None,scaleCorrScheme=None):
 		for ir,r in d[d['cat']==cat].iterrows():
 		  if r['proc'] == "data_obs": continue
 		  # Remove year+hgg tags from proc
-		  p = re.sub("_2016_hgg","",r['proc'])
+		  p = re.sub("_2016post_hgg","",r['proc'])
+      # p = re.sub("_2016pre_hgg","",r['proc'])
 		  p = re.sub("_2017_hgg","",p)
 		  p = re.sub("_2018_hgg","",p)
+      # p = re.sub("_2016pre_hgg","",p)
 		  # Add value if in proc in phase space else -
 		  if p in psProcs: sval = r["%s%s"%(s['name'],tierStr)]
 		  else: sval = '-'

@@ -37,12 +37,12 @@
 namespace std {} using namespace std;
 
 // Header files passed as explicit arguments
-#include "/afs/cern.ch/user/z/zhenxuan/CMSSW_10_6_20/src/flashggFinalFit/Background/interface/RooPowerLawSum.h"
-#include "/afs/cern.ch/user/z/zhenxuan/CMSSW_10_6_20/src/flashggFinalFit/Background/interface/WSTFileWrapper.h"
-#include "/afs/cern.ch/user/z/zhenxuan/CMSSW_10_6_20/src/flashggFinalFit/Background/interface/RooExponentialSum.h"
-#include "/afs/cern.ch/user/z/zhenxuan/CMSSW_10_6_20/src/flashggFinalFit/Background/interface/RooPowerLaw.h"
-#include "/afs/cern.ch/user/z/zhenxuan/CMSSW_10_6_20/src/flashggFinalFit/Background/interface/ProfileMultiplePdfs.h"
-#include "/afs/cern.ch/user/z/zhenxuan/CMSSW_10_6_20/src/flashggFinalFit/Background/interface/PdfModelBuilder.h"
+#include "/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/RooPowerLawSum.h"
+#include "/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/WSTFileWrapper.h"
+#include "/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/RooExponentialSum.h"
+#include "/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/RooPowerLaw.h"
+#include "/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/ProfileMultiplePdfs.h"
+#include "/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/PdfModelBuilder.h"
 
 // Header files passed via #pragma extra_include
 
@@ -434,18 +434,18 @@ namespace ROOT {
 namespace {
   void TriggerDictionaryInitialization_RootDict_Impl() {
     static const char* headers[] = {
-"interface/RooPowerLawSum.h",
-"interface/WSTFileWrapper.h",
-"interface/RooExponentialSum.h",
-"interface/RooPowerLaw.h",
-"interface/ProfileMultiplePdfs.h",
-"interface/PdfModelBuilder.h",
+"/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/RooPowerLawSum.h",
+"/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/WSTFileWrapper.h",
+"/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/RooExponentialSum.h",
+"/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/RooPowerLaw.h",
+"/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/ProfileMultiplePdfs.h",
+"/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/PdfModelBuilder.h",
 0
     };
     static const char* includePaths[] = {
-"/cvmfs/cms.cern.ch/slc7_amd64_gcc700/lcg/root/6.14.09-pafccj6//include",
-"/cvmfs/cms.cern.ch/slc7_amd64_gcc700/lcg/root/6.14.09-pafccj6/include",
-"/afs/cern.ch/user/z/zhenxuan/CMSSW_10_6_20/src/flashggFinalFit/Background/",
+"/cvmfs/cms.cern.ch/slc7_amd64_gcc700/lcg/root/6.12.07-gnimlf5//include",
+"/cvmfs/cms.cern.ch/slc7_amd64_gcc700/lcg/root/6.12.07-gnimlf5/include",
+"/eos/home-z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/",
 0
     };
     static const char* fwdDeclCode = R"DICTFWDDCLS(
@@ -454,12 +454,12 @@ namespace {
 #pragma clang diagnostic ignored "-Wignored-attributes"
 #pragma clang diagnostic ignored "-Wreturn-type-c-linkage"
 extern int __Cling_Autoloading_Map;
-class __attribute__((annotate("$clingAutoload$interface/RooPowerLawSum.h")))  RooPowerLawSum;
-class __attribute__((annotate("$clingAutoload$interface/WSTFileWrapper.h")))  WSTFileWrapper;
-class __attribute__((annotate("$clingAutoload$interface/RooExponentialSum.h")))  RooExponentialSum;
-class __attribute__((annotate("$clingAutoload$interface/RooPowerLaw.h")))  RooPowerLaw;
-class __attribute__((annotate("$clingAutoload$interface/ProfileMultiplePdfs.h")))  ProfileMultiplePdfs;
-class __attribute__((annotate("$clingAutoload$interface/PdfModelBuilder.h")))  PdfModelBuilder;
+class __attribute__((annotate("$clingAutoload$/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/RooPowerLawSum.h")))  RooPowerLawSum;
+class __attribute__((annotate("$clingAutoload$/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/WSTFileWrapper.h")))  WSTFileWrapper;
+class __attribute__((annotate("$clingAutoload$/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/RooExponentialSum.h")))  RooExponentialSum;
+class __attribute__((annotate("$clingAutoload$/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/RooPowerLaw.h")))  RooPowerLaw;
+class __attribute__((annotate("$clingAutoload$/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/ProfileMultiplePdfs.h")))  ProfileMultiplePdfs;
+class __attribute__((annotate("$clingAutoload$/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/PdfModelBuilder.h")))  PdfModelBuilder;
 )DICTFWDDCLS";
     static const char* payloadCode = R"DICTPAYLOAD(
 #line 1 "RootDict dictionary payload"
@@ -469,12 +469,12 @@ class __attribute__((annotate("$clingAutoload$interface/PdfModelBuilder.h")))  P
 #endif
 
 #define _BACKWARD_BACKWARD_WARNING_H
-#include "interface/RooPowerLawSum.h"
-#include "interface/WSTFileWrapper.h"
-#include "interface/RooExponentialSum.h"
-#include "interface/RooPowerLaw.h"
-#include "interface/ProfileMultiplePdfs.h"
-#include "interface/PdfModelBuilder.h"
+#include "/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/RooPowerLawSum.h"
+#include "/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/WSTFileWrapper.h"
+#include "/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/RooExponentialSum.h"
+#include "/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/RooPowerLaw.h"
+#include "/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/ProfileMultiplePdfs.h"
+#include "/eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/Background/interface/PdfModelBuilder.h"
 
 #undef  _BACKWARD_BACKWARD_WARNING_H
 )DICTPAYLOAD";
@@ -491,7 +491,7 @@ nullptr};
     if (!isInitialized) {
       TROOT::RegisterModule("RootDict",
         headers, includePaths, payloadCode, fwdDeclCode,
-        TriggerDictionaryInitialization_RootDict_Impl, {}, classesHeaders, /*has no C++ module*/false);
+        TriggerDictionaryInitialization_RootDict_Impl, {}, classesHeaders);
       isInitialized = true;
     }
   }

@@ -1,0 +1,4 @@
+for i in 700
+do
+    echo $i
+done

@@ -22,17 +22,19 @@ class dummy_options:
   def __init__(self):
     self.physModel = "HiggsAnalysis.CombinedLimit.PhysicsModel:floatingHiggsMass"
     self.physOpt = ["higgsMassRange=90,250"]
+    # self.physOpt = ["higgsMassRange=70,400"]
     self.bin = True
     self.fileName = "dummy.root"
     self.cexpr = False
     self.out = "wsdefault"
     self.verbose = 0
     self.mass = 125
+
     self.funcXSext = "dummy"
 
 # Functions to get XS/BR
 def getXS(_SM,_MHVar,_mh,_pm):
-  print("_pm \n", _pm)
+  # print("_pm \n", _pm)
   _MHVar.setVal(_mh)
   return _SM.modelBuilder.out.function("SM_XS_%s_%s"%(_pm,sqrts__)).getVal()
 def getBR(_SM,_MHVar,_mh,_dm):
@@ -60,10 +62,12 @@ def initialiseXSBR():
   for pm in productionModes: xsbr[pm] = []
   xsbr[decayMode] = []
   xsbr['constant'] = []
-  mh = 120.
+  mh =120.
   while( mh < 130.05 ):
     for pm in productionModes: xsbr[pm].append(getXS(SM,MHVar,mh,pm))
+    # for pm in productionModes: xsbr[pm].append(1.)
     xsbr[decayMode].append(getBR(SM,MHVar,mh,decayMode))
+    # xsbr[decayMode].append(1.)
     xsbr['constant'].append(1.)
     mh += 0.1
   for pm in productionModes: xsbr[pm] = np.asarray(xsbr[pm])
@@ -71,6 +75,7 @@ def initialiseXSBR():
   xsbr['constant'] = np.asarray(xsbr['constant'])
   # If ggZH and ZH in production modes then make qqZH numpy array
   if('ggZH' in productionModes)&('ZH' in productionModes): xsbr['qqZH'] = xsbr['ZH']-xsbr['ggZH']
+  # print(xsbr)
   return xsbr
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   
@@ -89,9 +94,11 @@ class FinalModel:
     self.xvar = _xvar
     self.aset = ROOT.RooArgSet(self.xvar)
     self.MH = _MH
+
     self.MHLow = _MHLow
     self.MHHigh = _MHHigh
     self.massPoints = _massPoints
+    # print("ppp",self.massPoints)
     self.intLumi = ROOT.RooRealVar("IntLumi","IntLumi",1.,0.,999999999.) # in pb^-1
     self.xsbrMap = _xsbrMap
     # Systematics
@@ -114,9 +121,13 @@ class FinalModel:
     self.Pdfs = od()
     self.Datasets = od()
     # Build XS/BR/EA splines
+
     self.XSBR = initialiseXSBR() 
+
     self.buildXSBRSplines()
+
     self.buildEffAccSpline()
+
     # If not skip systematics: add nuisance params to dict
     if not self.skipSystematics: self.buildNuisanceMap()
     # Build final pdfs
@@ -136,10 +147,17 @@ class FinalModel:
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Functions to get XS, BR and EA splines for given proc/decay from map
   def buildXSBRSplines(self):
-    mh = np.linspace(120.,130.,101)
+    if self.xvar == "CMS_hgg_mass":
+      mh = np.linspace(120.,130.,101)
+    else:
+      mh = np.linspace(int(self.MHLow),int(self.MHHigh),int(self.MHHigh)-int(self.MHLow)) 
     # XS
     if(self.proc == 'gghh'):
-      xs = np.ones(101)
+      if self.xvar == "CMS_hgg_mass":
+        xs = np.ones(101)
+      else:
+        xs = np.ones(int(self.MHHigh)-int(self.MHLow))
+   
     else:
       mp = self.xsbrMap[self.proc]['mode']
       fp = self.xsbrMap[self.proc]['factor'] if 'factor' in self.xsbrMap[self.proc] else 1.
@@ -148,12 +166,15 @@ class FinalModel:
     self.Splines['xs'] = ROOT.RooSpline1D("fxs_%s_%s"%(self.proc,self.sqrts),"fxs_%s_%s"%(self.proc,self.sqrts),self.MH,len(mh),mh,xs)
     # BR
     if(self.proc == 'gghh'):
-      br = np.ones(101)
+      if self.xvar == "CMS_hgg_mass":
+        br = np.ones(101)
+      else:
+        br = np.ones(int(self.MHHigh)-int(self.MHLow))
     else:
       md = self.xsbrMap['decay']['mode']
       fd = self.xsbrMap['decay']['factor'] if 'factor' in self.xsbrMap['decay'] else 1.
       br = fd*self.XSBR[md]
-    self.Splines['br'] = ROOT.RooSpline1D("fbr_%s"%self.sqrts,"fbr_%s"%self.sqrts,self.MH,len(mh),mh,br)
+    self.Splines['br'] = ROOT.RooSpline1D("fbr_%s_%s"%(self.proc,self.sqrts),"fbr_%s_%s"%(self.proc,self.sqrts),self.MH,len(mh),mh,br)
 
   def buildEffAccSpline(self):
     # Two treatments: load from json created with getEffAcc.py script or calc from sum of weights
@@ -170,10 +191,19 @@ class FinalModel:
         ea.append(float(ea_data['%s__%s'%(self.proc,self.cat)]))
       else:
         sumw = self.datasets[mp].sumEntries()
-        self.MH.setVal(float(mp))
+        # self.MH.setVal(float(mp))
         xs,br = self.Splines['xs'].getVal(), self.Splines['br'].getVal()
+        # xs=1.
+        # br=1.
+        # print("xssss",xs,br,sumw)
         ea.append(sumw/(lumiScaleFactor*xs*br)) 
+    # print(ea,"eaea",mh)
     # If single mass point then add MHLow and MHHigh dummy points for constant ea
+
+    if self.xvar != "CMS_hgg_mass":
+      mh=[self.MH.getVal()]
+    # print(self.MHLow,self.MHHigh,"???????????")
+
     if len(ea) == 1: ea, mh = [ea[0],ea[0],ea[0]], [float(self.MHLow),mh[0],float(self.MHHigh)]
     # Convert to numpy arrays and make spline
     ea, mh = np.asarray(ea), np.asarray(mh)

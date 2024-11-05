@@ -37,6 +37,22 @@ def extractType(_f,_y):
     else:
       print " --> Type (UEPS) not recognised for file: %s. Skipping"%_f
       sys.exit(1)
+  if _y == '2016pre':
+    if "UpPS" in _f: return "ps_up"
+    elif "DownPS" in _f: return "ps_down"
+    elif "CUETP8M1Up" in _f: return "ue_up"
+    elif "CUETP8M1Down" in _f: return "ue_down"
+    else:
+      print " --> Type (UEPS) not recognised for file: %s. Skipping"%_f
+      sys.exit(1)
+  if _y == '2016post':
+    if "UpPS" in _f: return "ps_up"
+    elif "DownPS" in _f: return "ps_down"
+    elif "CUETP8M1Up" in _f: return "ue_up"
+    elif "CUETP8M1Down" in _f: return "ue_down"
+    else:
+      print " --> Type (UEPS) not recognised for file: %s. Skipping"%_f
+      sys.exit(1)
   elif _y == '2017':
     if "UpPS" in _f: return "ps_up"
     elif "DownPS" in _f: return "ps_down"

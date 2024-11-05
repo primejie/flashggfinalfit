@@ -21,8 +21,14 @@ def get_options():
   parser.add_option('--doNNLOPS',dest='doNNLOPS', default=False, action="store_true", help='Add NNLOPS weight variable: NNLOPSweight')
   parser.add_option('--doSystematics',dest='doSystematics', default=False, action="store_true", help='Add systematics datasets to output WS')
   parser.add_option('--doSTXSSplitting',dest='doSTXSSplitting', default=False, action="store_true", help='Split output WS per STXS bin')
+  parser.add_option('--jetmass',dest='jetmass', default=125, help='input Dijet mass')
+  parser.add_option('--low',dest='low', default=100, help='low Dijet mass')
+  parser.add_option('--high',dest='high', default=180, help='high Dijet mass')
   return parser.parse_args()
 (opt,args) = get_options()
+jetmass=int(opt.jetmass)
+high=int(opt.high)
+low=int(opt.low)
 
 from collections import OrderedDict as od
 from importlib import import_module
@@ -33,8 +39,8 @@ import numpy as np
 import uproot
 from root_numpy import array2tree
 
-from commonTools import *
-from commonObjects import *
+from tools.commonTools import *
+from tools.commonObjects import *
 from tools.STXS_tools import *
 
 print " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ HGG TREES 2 WS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ "
@@ -43,7 +49,7 @@ def leave():
   sys.exit(1)
 
 # Function to add vars to workspace
-def add_vars_to_workspace(_ws=None,_data=None,_stxsVar=None):
+def add_vars_to_workspace(_ws=None,_data=None,_stxsVar=None,jetmass=125,low=100,high=180):
   # Add intLumi var
   intLumi = ROOT.RooRealVar("intLumi","intLumi",1000.,0.,999999999.)
   intLumi.setConstant(True)
@@ -60,6 +66,10 @@ def add_vars_to_workspace(_ws=None,_data=None,_stxsVar=None):
       _vars[var].setBins(40)
     elif var == "weight": 
       _vars[var] = ROOT.RooRealVar(var,var,0.)
+    elif var == "Dijet_mass": 
+      _vars[var] = ROOT.RooRealVar(var,var,jetmass,low,high)
+      _vars[var].setBins((high-low)/5)
+      
     else:
       _vars[var] = ROOT.RooRealVar(var,var,1.,-999999,999999)
       _vars[var].setBins(1)
@@ -84,7 +94,7 @@ if opt.inputConfig != '':
 
     # Import config options
     _cfg = import_module(re.sub(".py","",opt.inputConfig)).trees2wsCfg
-
+    
     #Extract options
     inputTreeDir     = _cfg['inputTreeDir']
     mainVars         = _cfg['mainVars']
@@ -109,6 +119,7 @@ for ts, nWeights in theoryWeightContainers.iteritems(): theoryWeightColumns[ts] 
 
 # If year == 2018, add HET
 if opt.year == '2018': systematics.append("JetHEM")
+if opt.year == '2018': systematics.append("FJHEM")
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -275,7 +286,7 @@ for stxsId in data[stxsVar].unique():
   ws = ROOT.RooWorkspace(inputWSName__.split("/")[1],inputWSName__.split("/")[1])
   
   # Add variables to workspace
-  varNames = add_vars_to_workspace(ws,df,stxsVar)
+  varNames = add_vars_to_workspace(ws,df,stxsVar,jetmass,low,high)
 
   # Loop over cats
   for cat in cats:

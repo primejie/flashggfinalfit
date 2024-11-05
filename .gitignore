@@ -25,15 +25,29 @@ crabConfig_*
 AutoDict_*
 
 # Other temp files
-*.txt
-*.log
-*.png
-*.pdf
-*.out
-*.tmp
-*.pcm
-*.o
+**/*.txt
+**/*.log
+**/*.png
+**/*.pdf
+**/*.out
+**/*.tmp
+**/*.pcm
+**/*.o
+*.sh
 
 # Output dirs in signal and bkg
 Signal/outdir_*
+Signal/signal_*
 Background/outdir_*
+Background/config_*
+Background/data_*
+Background/org
+Datacard/yields*
+Datacard/ALL*
+Datacard/new*
+Datacard/old*
+Datacard/combine*
+Datacard/sys*
+Plot/output*
+Plot/allsys
+

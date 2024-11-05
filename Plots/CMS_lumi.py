@@ -32,7 +32,7 @@ lumi_14TeV = "3000 fb^{-1}"
 lumi_13TeV = "35.9 fb^{-1}"
 lumi_8TeV  = "19.7 fb^{-1}" 
 lumi_7TeV  = "5.1 fb^{-1}"
-lumi_sqrtS = "137 fb^{-1}"
+lumi_sqrtS = "138 fb^{-1}"
  
 drawLogo      = False
 outOfFrame    = False
@@ -136,7 +136,8 @@ def CMS_lumi(pad,  iPeriod,  iPosX ):
     elif( iPosX%10==3 ):
         posX_ =  1-r - relPosX*(1-l-r)  # right aligned
  
-    posY_ = 1-t - relPosY*(1-t-b)
+    # posY_ = 1-t - relPosY*(1-t-b)
+    posY_ = 1-t+cmsTextSize*t*(1-t-b)
     print("outof Frame is :",outOfFrame)
     if( not outOfFrame ):
         if( drawLogo ):
@@ -157,12 +158,18 @@ def CMS_lumi(pad,  iPeriod,  iPosX ):
             latex.SetTextFont(cmsTextFont)
             latex.SetTextSize(cmsTextSize*t)
             latex.SetTextAlign(align_)
+            
             latex.DrawLatex(posX_, posY_, cmsText)
+
             if( writeExtraText ) :
                 latex.SetTextFont(extraTextFont)
                 latex.SetTextAlign(align_)
+                lenth=latex.GetTextSize()*len(cmsText)*(1-l-r)
                 latex.SetTextSize(extraTextSize*t)
-                latex.DrawLatex(posX_, posY_- relExtraDY*cmsTextSize*t, extraText)
+                
+                # latex.DrawLatex(posX_, posY_- relExtraDY*cmsTextSize*t, extraText)
+                y=1-t+extraTextSize*t*(1-t-b)
+                latex.DrawLatex(posX_+lenth, y, extraText)
     elif( writeExtraText ):
         if( iPosX==0):
             posX_ =   l +  relPosX*(1-l-r)

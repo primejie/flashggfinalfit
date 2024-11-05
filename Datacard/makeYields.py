@@ -180,6 +180,7 @@ if opt.doSystematics:
   # No experimental systematics for NOTAG
   if opt.cat != "NOTAG":
     for s in experimental_systematics: 
+      print(s)
       if s['type'] == 'factory': 
 	# Fix for HEM as only in 2018 workspaces
 	if s['name'] == 'JetHEM': experimentalFactoryType[s['name']] = "a_h"
@@ -229,16 +230,18 @@ for ir,r in data[data['type']=='sig'].iterrows():
       f_NNLOPS = abs(p.getRealValue("NNLOPSweight")) if "NNLOPSweight" in contents else 1.
       if f_COWCorr == 0: continue
       else: y_COWCorr += w*(f_NNLOPS/f_COWCorr)
+
   data.at[ir,'nominal_yield'] = y
   data.at[ir,'sumw2'] = sumw2
   if not opt.skipCOWCorr: data.at[ir,'nominal_yield_COWCorr'] = y_COWCorr
-
   # Systematics: loop over systematics and use function to extract yield variations
   if opt.doSystematics:
 
     # For experimental systematics: skip NOTAG events
     if "NOTAG" not in r['cat']:
+
       # Skip centralObjectWeight correction as concerns events in acceptance
+      print("contents",contents)
       experimentalSystYields = calcSystYields(r['nominalDataName'],contents,inputWS,experimentalFactoryType,skipCOWCorr=True,proc=r['proc'],year=r['year'],ignoreWarnings=opt.ignore_warnings)
       for s,f in experimentalFactoryType.iteritems():
 	if f in ['a_w','a_h']: 

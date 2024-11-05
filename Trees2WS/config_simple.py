@@ -6,11 +6,11 @@ trees2wsCfg = {
   'inputTreeDir':'',
 
   # Variables to be added to dataframe: use wildcard * for common strings
-  'mainVars':["CMS_hgg_mass","weight","dZ"], # Var for the nominal RooDataSets
-  'dataVars':["CMS_hgg_mass","weight"], # Vars to be added for data
+  'mainVars':["CMS_hgg_mass","Dijet_mass","weight","dZ"], # Var for the nominal RooDataSets
+  'dataVars':["CMS_hgg_mass","Dijet_mass","weight"], # Vars to be added for data
   'stxsVar':'',
   'notagVars':["weight"], # Vars to add to NOTAG RooDataset
-  'systematicsVars':["CMS_hgg_mass","weight"], # Variables to add to sytematic RooDataHists
+  'systematicsVars':["CMS_hgg_mass","Dijet_mass","weight"], # Variables to add to sytematic RooDataHists
   'theoryWeightContainers':{},
 
   # List of systematics: use string YEAR for year-dependent systematics

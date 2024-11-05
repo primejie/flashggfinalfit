@@ -1,6 +1,13 @@
 WhichSamples=${1}
 if [ ${WhichSamples} -eq 0 ]
   then
-    echo 'run plot_limits'
-    python plot_limits.py --resultType 'WWgg' --unit 'fb' --ymin 0 --ymax 2 --year 2017 --yboost 0 
+    # echo 'run plot_limits'
+    python plot_limit_2.py --resultType 'bbgg' --unit 'fb' --ymin 0.01 --ymax 10000000000 --year 2017 --yboost 0 
+    # python plot_limit_all.py --resultType 'bbgg' --unit 'fb' --ymin 0.01 --ymax 10000000000 --year 2017 --yboost 0
+    # python plot_limit_cp.py --resultType 'HY' --unit 'fb' --ymin 0.01 --ymax 10 --year 2017 --yboost 0
+    # for i in {1000,1200,1400,1600,1800,2000,2200,2400,2500,2600,2800,3000,3500,4000}
+    # do
+    #   python plot_limit_$i.py --resultType 'bbgg' --unit 'fb' --ymin 0.01 --ymax 100 --year 2017 --yboost 0 
+    #   python plot_limit_$i.py --resultType 'HY' --unit 'fb' --ymin 10 --ymax 10000 --year 2017 --yboost 0
+    # done
 fi

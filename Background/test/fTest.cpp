@@ -59,6 +59,7 @@ int mgg_low =100;
 int mgg_high =180;
 int nBinsForMass = 4*(mgg_high-mgg_low);
 
+
 RooRealVar *intLumi_ = new RooRealVar("IntLumi","hacked int lumi", 1000.);
 
 TRandom3 *RandomGen = new TRandom3();
@@ -95,6 +96,9 @@ void runFit(RooAbsPdf *pdf, RooDataSet *data, double *NLL, int *stat_t, int MaxT
 	*stat_t = stat;
 	*NLL = minnll;
 }
+
+
+
 double getProbabilityFtest(double chi2, int ndof,RooAbsPdf *pdfNull, RooAbsPdf *pdfTest, RooRealVar *mass, RooDataSet *data, std::string name){
  
   double prob_asym = TMath::Prob(chi2,ndof);
@@ -323,6 +327,7 @@ void plot(RooRealVar *mass, RooAbsPdf *pdf, RooDataSet *data, string name,vector
     data->plotOn(plot,Binning(mgg_high-mgg_low),CutRange("unblindReg_2"));
     data->plotOn(plot,Binning(mgg_high-mgg_low),Invisible());
   }
+  
   else data->plotOn(plot,Binning(mgg_high-mgg_low));
 
  // data->plotOn(plot,Binning(mgg_high-mgg_low));

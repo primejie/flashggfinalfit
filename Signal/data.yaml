@@ -1,0 +1,13 @@
+"# Config file: options for signal fitting\n\n_year = '2016post'\n\nsignalScriptCfg\
+  \ = {\n  \n  # Setup\n  'inputWSDir':'/eos/cms/store/group/phys_higgs/cmshgg/zhjie/output/output_3000/opt/2016post/root/ws_ttH_cat0_125',\n\
+  \  'procs':'auto', # if auto: inferred automatically from filenames\n  'cats':'auto',\
+  \ # if auto: inferred automatically from (0) workspace\n  'ext':'dcb_%s_res_M3000_M125_cat0'%_year,\n\
+  \  'analysis':'STXS', # To specify which replacement dataset mapping (defined in\
+  \ ./python/replacementMap.py)\n  'year':'%s'%_year, # Use 'combined' if merging\
+  \ all years: not recommended\n  'massPoints':'125',\n\n  #Photon shape systematics\
+  \  \n  'scales':'', # separate nuisance per year\n  'scalesCorr':'', # correlated\
+  \ across years\n  'scalesGlobal':'', # affect all processes equally, correlated\
+  \ across years\n  'smears':'', # separate nuisance per year\n\n  # Job submission\
+  \ options\n  'batch':'local', # ['condor','SGE','IC','local']\n  'queue':'hep.q'\n\
+  \  #'batch':'condor', # ['condor','SGE','IC','local']\n  #'queue':'espresso',\n\n\
+  }\n"

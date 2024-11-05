@@ -87,6 +87,7 @@ def plotFTest(ssfs,_opt=1,_outdir='./',_extension='',_proc='',_cat='',_mass='125
     if hists[k].GetMaximum()>hmax: hmax = hists[k].GetMaximum()
     if hists[k].GetMinimum()<hmin: hmin = hists[k].GetMinimum()
     hists[k].GetXaxis().SetRangeUser(115,140)
+    # hists[k].GetXaxis().SetRangeUser(70,400)
   # Extract data histogram
   hists['data'] = ssf.xvar.createHistogram("h_data%s"%_extension,ROOT.RooFit.Binning(ssf.nBins))
   ssf.DataHists[_mass].fillHistogram(hists['data'],ROOT.RooArgList(ssf.xvar))
@@ -98,6 +99,7 @@ def plotFTest(ssfs,_opt=1,_outdir='./',_extension='',_proc='',_cat='',_mass='125
   hists['data'].GetXaxis().SetTitle("m_{#gamma#gamma} [GeV]")
   hists['data'].SetMinimum(0)
   hists['data'].GetXaxis().SetRangeUser(115,140)
+
   if hists['data'].GetMaximum()>hmax: hmax = hists['data'].GetMaximum()
   if hists['data'].GetMinimum()<hmin: hmin = hists['data'].GetMinimum()
 
@@ -183,7 +185,7 @@ def plotFTestResults(ssfs,_opt,_outdir="./",_extension='',_proc='',_cat='',_mass
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Signal fit plots
 # Plot final pdf at MH = 125 (with data) + individual Pdf components
-def plotPdfComponents(ssf,_outdir='./',_extension='',_proc='',_cat=''):
+def plotPdfComponents(ssf,var="CMS_hgg_mass",_outdir='./',_extension='',_proc='',_cat=''):
   canv = ROOT.TCanvas()
   canv.SetLeftMargin(0.15)
   ssf.MH.setVal(125)
@@ -196,20 +198,32 @@ def plotPdfComponents(ssf,_outdir='./',_extension='',_proc='',_cat=''):
   hists['final'].SetLineWidth(2)
   hists['final'].SetLineColor(1)
   hists['final'].SetTitle("")
-  hists['final'].GetXaxis().SetTitle("m_{#gamma#gamma} [GeV]")
+  if var=="CMS_hgg_mass":
+    hists['final'].GetXaxis().SetTitle("m_{#gamma#gamma} [GeV]")
+  else:
+    hists['final'].GetXaxis().SetTitle("m_{jj} [GeV]")
   hists['final'].SetMinimum(0)
   if hists['final'].GetMaximum()>hmax: hmax = hists['final'].GetMaximum()
   if hists['final'].GetMinimum()<hmin: hmin = hists['final'].GetMinimum()
-  #hists['final'].GetXaxis().SetRangeUser(115,140)
-  hists['final'].GetXaxis().SetRangeUser(100,150)
+
+  # hists['final'].GetXaxis().SetRangeUser(70,400)
+  # hists['final'].GetXaxis().SetRangeUser(100,150)
+
+
   # Create data histogram
   hists['data'] = ssf.xvar.createHistogram("h_data%s"%_extension,ROOT.RooFit.Binning(ssf.nBins))
   ssf.DataHists['125'].fillHistogram(hists['data'],ROOT.RooArgList(ssf.xvar))
   hists['data'].SetTitle("")
-  hists['data'].GetXaxis().SetTitle("m_{#gamma#gamma} [GeV]")
+  if var=="CMS_hgg_mass":
+    hists['data'].GetXaxis().SetTitle("m_{#gamma#gamma} [GeV]")
+  else:
+    hists['data'].GetXaxis().SetTitle("m_{jj} [GeV]")
   hists['data'].SetMinimum(0)
-  #hists['data'].GetXaxis().SetRangeUser(115,140)
-  hists['data'].GetXaxis().SetRangeUser(100,150)
+
+  # hists['data'].GetXaxis().SetRangeUser(70,400)
+  # hists['data'].GetXaxis().SetRangeUser(100,150)
+
+
   hists['data'].Scale(float(ssf.nBins)/1600)
   hists['data'].SetMarkerStyle(20)
   hists['data'].SetMarkerColor(1)
@@ -315,11 +329,14 @@ def plotInterpolation(_finalModel,_outdir='./',_massPoints='120,121,122,123,124,
 
   # Extract first hist and clone for axes
   haxes = hists[hists.keys()[0]].Clone()
-  haxes.GetXaxis().SetTitle("m_{#gamma#gamma} [GeV]")
+  # haxes.GetXaxis().SetTitle("m_{#gamma#gamma} [GeV]")
+  haxes.GetXaxis().SetTitle("m_{#j#j} [GeV]")
   haxes.GetYaxis().SetTitle("Events / %.2f GeV"%((_finalModel.xvar.getMax()-_finalModel.xvar.getMin())/_finalModel.xvar.getBins()))
   haxes.SetMinimum(0)
   haxes.SetMaximum(hmax*1.2)
+
   haxes.GetXaxis().SetRangeUser(100,150)
+
   haxes.Draw("AXIS")
 
   # Draw rest of histograms
@@ -424,7 +441,7 @@ def plotSplines(_finalModel,_outdir="./",_nominalMass='125',splinesToPlot=['xs',
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Function for plotting final signal model: neat
 def plotSignalModel(_hists,_opt,_outdir=".",offset=0.02):
-  colorMap = {'2016':38,'2017':30,'2018':46}
+  colorMap = {'2016':38,'2016pre':38, '2016post':40,'2017':30,'2018':46}
   canv = ROOT.TCanvas("c","c",650,600)
   canv.SetBottomMargin(0.12)
   canv.SetLeftMargin(0.15)

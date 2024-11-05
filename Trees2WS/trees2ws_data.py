@@ -11,9 +11,14 @@ def get_options():
   parser.add_option('--inputConfig',dest='inputConfig', default="", help='Input config: specify list of variables/analysis categories')
   parser.add_option('--inputTreeFile',dest='inputTreeFile', default=None, help='Input tree file')
   parser.add_option('--outputWSDir',dest='outputWSDir', default=None, help='Output dir (default is same as input dir)')
+  parser.add_option('--jetmass',dest='jetmass', default=125, help='input Dijet mass')
+  parser.add_option('--low',dest='low', default=100, help='low Dijet mass')
+  parser.add_option('--high',dest='high', default=180, help='high Dijet mass')
   return parser.parse_args()
 (opt,args) = get_options()
-
+jetmass=int(opt.jetmass)
+high=int(opt.high)
+low=int(opt.low)
 from collections import OrderedDict as od
 from importlib import import_module
 
@@ -22,8 +27,8 @@ import uproot
 from root_numpy import array2tree
 from collections import OrderedDict as od
 
-from commonTools import *
-from commonObjects import *
+from tools.commonTools import *
+from tools.commonObjects import *
 
 
 print " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ HGG TREES 2 WS (DATA) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ "
@@ -32,7 +37,7 @@ def leave():
   sys.exit(1)
 
 # Function to add vars to workspace
-def add_vars_to_workspace(_ws=None,_dataVars=None):
+def add_vars_to_workspace(_ws=None,_dataVars=None,jetmass=125,low=100,high=180):
   # Add intLumi var
   intLumi = ROOT.RooRealVar("intLumi","intLumi",1000.,0.,999999999.)
   intLumi.setConstant(True)
@@ -47,6 +52,9 @@ def add_vars_to_workspace(_ws=None,_dataVars=None):
       _vars[var].setBins(40)
     elif var == "weight":
       _vars[var] = ROOT.RooRealVar(var,var,0.)
+    elif var == "Dijet_mass":
+      _vars[var] = ROOT.RooRealVar(var,var,jetmass,low,high)
+      _vars[var].setBins((high-low)/5)
     else:
       _vars[var] = ROOT.RooRealVar(var,var,1.,-999999,999999)
       _vars[var].setBins(1)
@@ -111,7 +119,7 @@ foutdir.cd()
 ws = ROOT.RooWorkspace(inputWSName__.split("/")[1],inputWSName__.split("/")[1])
 
 # Add variables to workspace
-varNames = add_vars_to_workspace(ws,dataVars)
+varNames = add_vars_to_workspace(ws,dataVars,jetmass,low,high)
 
 # Make argset
 aset = make_argset(ws,varNames)

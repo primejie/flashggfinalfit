@@ -1,0 +1,12 @@
+Executable = /eos/user/z/zhjie/CMSSW_10_2_13/src/flashggFinalFit/bbgg/run_sys_2500.sh
+Universe = vanilla
+Notification = ERROR
+getenv      = True
++JobFlavour = "tomorrow"
+request_memory = 12000
+request_cpus = 8
+Output = logs/log_$(Cluster)__$(Process)_run_sys_2500.sh.stdout
+Error  = logs/log_$(Cluster)__$(Process)_run_sys_2500.sh.stdout
+Log  = logs/log_$(Cluster)__$(Process)_run_sys_2500.sh.err
+Queue 1
+

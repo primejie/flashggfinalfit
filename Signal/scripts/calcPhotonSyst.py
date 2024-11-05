@@ -51,6 +51,8 @@ def getHistograms( _ws, _nominalDataName, _sname ):
     else: _hists[htype] = ROOT.TH1F("%s_%s"%(_sname,htype),"%s_%s"%(_sname,htype),opt.nBins,100,180)
   # Extract nominal RooDataSet and syst RooDataHists
   rds_nominal = _ws.data(_nominalDataName)
+  print(_nominalDataName)
+  print(_sname)
   rdh_up = _ws.data("%s_%sUp01sigma"%(_nominalDataName,_sname))
   rdh_down = _ws.data("%s_%sDown01sigma"%(_nominalDataName,_sname))
   # Check if not NONE type and fill histograms
@@ -131,7 +133,7 @@ for ir,r in data.iterrows():
     for s in getattr(opt,stype).split(","):
       if s == '': continue
       sname = "%s%s"%(inputNuisanceExtMap[stype],s)
-      #print "    * Systematic = %s (%s)"%(sname,stype)
+      print "    * Systematic = %s (%s)"%(sname,stype)
       hists = getHistograms(inputWS,r['nominalDataName'],sname)
       # If nominal yield = 0:
       if hists['nominal'].Integral() == 0: _meanVar, _sigmaVar, _rateVar = 0, 0, 0
